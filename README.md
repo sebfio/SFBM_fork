@@ -4,3 +4,5 @@ https://www.mathworks.com/matlabcentral/fileexchange/51047-shear-force-bending-m
 
 Changes were made to satisfy requirements for ME 321 machine design course
 at the university of waterloo for Mechatronics Engineering.
+
+For original README and License see readme.txt and license.txt
