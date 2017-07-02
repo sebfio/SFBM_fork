@@ -140,7 +140,7 @@ for n  = 1:nd
             end
         end
     end
-    plot(xdist,ydist1,'m','linewidth',1.5)
+    %plot(xdist,ydist1,'m','linewidth',1.5)
 end
 
 % Moments
@@ -322,16 +322,16 @@ for n = 1:numel(Xtick)
     h4 = annotation('line',[xa1(n) xa2(n)],[ya1(n) ya2(n)],'Tag' , 'connect1');
     set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]); set(h4, 'LineWidth', 0.1);
 end
-% 
-% for n = 1:numel(YtickSF)
-%     h4 = annotation('line',[xb1(n) xc1(n)],[yb1(n) yc1(n)],'Tag' , 'connect1');
-%     set(h4,'LineStyle','--'); set(h4,'Color','b'); 
-% end
-% 
-% for n = 1:numel(YtickBM)
-%     h4 = annotation('line',[xb2(n) xc2(n)],[yb2(n) yc2(n)],'Tag' , 'connect1');
-%     set(h4,'LineStyle','--'); set(h4,'Color','b'); 
-% end
+
+for n = 1:numel(YtickSF)
+    h4 = annotation('line',[xb1(n) xc1(n)],[yb1(n) yc1(n)],'Tag' , 'connect1');
+    set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]); 
+end
+
+for n = 1:numel(YtickBM)
+    h4 = annotation('line',[xb2(n) xc2(n)],[yb2(n) yc2(n)],'Tag' , 'connect1');
+    set(h4,'LineStyle','--'); set(h4,'Color',[0,0,0,0.1]); 
+end
 
 f2 = getframe(gcf);
 F = [f1.cdata,f2.cdata];
