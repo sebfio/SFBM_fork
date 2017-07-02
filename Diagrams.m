@@ -14,7 +14,7 @@ for m = 1:numel(Dload)
 end
 
 % Factors needed for proper units so Matlab axis is not adjusted after creation
-Xfactor     = 10^floor(log10(max(abs(x))));
+Xfactor     = 1;
 SFfactor    = 10^floor(log10(max(abs(sf))));
 BMfactor    = 10^floor(log10(max(abs(bm))));
 maxforce    = max(Loads); minforce = min(Loads);
@@ -34,7 +34,7 @@ XTICK   = {};
 YTICKSF = {};
 YTICKBM = {};
 XLOAD   = {};
-format  = ['%.',num2str(DeciPlace),'f'];
+format  = ['%.',num2str(0),'f'];
 for n = 1:numel(Xtick)
     XTICK{n} = num2str(Xtick(n)/Xfactor,format);
 end
@@ -44,11 +44,11 @@ for n = 1:numel(Xload)
 end
 
 for n = 1:numel(YtickSF)
-    YTICKSF{n} = num2str(YtickSF(n)/SFfactor,format);
+    YTICKSF{n} = num2str(YtickSF(n), format);
 end
 
 for n = 1:numel(YtickBM)
-    YTICKBM{n} = num2str(YtickBM(n)/BMfactor,format);
+    YTICKBM{n} = num2str(YtickBM(n), format);
 end
 
 
@@ -76,7 +76,7 @@ for n   = 1:nc
     yl2 = sign(-Cload{n})*t/2;
     yl1 = -Cload{n}*lenperforce + yl2;
     ymin = min([ymin,yl1]); ymax = max([ymax,yl1]);
-    text(xl,yl1+0.2*sign(yl1),[num2str(abs(Cload{n}) * 1000,'%.4f'),'N'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(xl,yl1+0.2*sign(yl1),[num2str(abs(Cload{n}),'%.2f'),'N'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
     if yl1 ~= yl2
         if TypeF(n) == 'a';
             if (nca == 0)
@@ -116,8 +116,8 @@ for n  = 1:nd
     ydist1 = ydist1 + ydist2;
     ymin   = min([ymin,min(ydist1)]); ymax = max([ymax,max(ydist1)]);
     
-    text(xdist(1),ydist1(1) + 0.2*sign(ydist1(1)),[num2str(abs(Dload{n}(1)) * 1000,'%.2f'),'N/m'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
-    text(xdist(end),ydist1(end) + 0.2*sign(ydist1(end)),[num2str(abs(Dload{n}(end)) * 1000,'%.2f'),'N/m'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(xdist(1),ydist1(1) + 0.2*sign(ydist1(1)),[num2str(abs(Dload{n}(1)),'%.2f'),'N/m'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(xdist(end),ydist1(end) + 0.2*sign(ydist1(end)),[num2str(abs(Dload{n}(end)),'%.2f'),'N/m'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
         
     for nn = 1:num
         if ydist2(nn) ~= ydist1(nn)
@@ -170,13 +170,13 @@ for n = 1:nm
         end
         plot(Mloc{n},0,'ok','markersize',5,'markerfacecolor','r')
     end
-    text(Mloc{n},0.3*sign(Mload{n}),[num2str(abs(Mload{n}) * 1000,'%.2f'),'N-m'], 'FontSize',12, 'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(Mloc{n},0.3*sign(Mload{n}),[num2str(abs(Mload{n}),'%.2f'),'N-m'], 'FontSize',12, 'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
 end
 
 Ymin = ymin - 0.5;
 Ymax = ymax + 2.5;
 axis([Xmin, Xmax,Ymin,Ymax])
-title('$Free~Body~Diagram$','FontSize',12, 'interpreter','latex')
+title('$Free~Body~Diagram$','FontSize',16, 'interpreter','latex')
 hold off
 box off
 set(ax2,'YTick',[]);
@@ -200,10 +200,10 @@ text(0.5*(Xmin + Xmax), Ymin - VerticalOffset, xlabeltext,...
 [xa0, ya0] = ConvertCoordinates(ax2, Xload,zeros(size(Xload)));
 [xb0, yb0] = ConvertCoordinates(ax2, Xload,repmat(Ymin,size(Xload)));
 
-for n = 1:numel(Xload)
-    h4 = annotation('line',[xa0(n) xb0(n)],[ya0(n) yb0(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color','b'); 
-end 
+% for n = 1:numel(Xload)
+%     h4 = annotation('line',[xa0(n) xb0(n)],[ya0(n) yb0(n)],'Tag' , 'connect1');
+%     set(h4,'LineStyle','--'); set(h4,'Color','b'); 
+% end 
 legend(PlotHandles,PlotNames, 'FontSize',10,'interpreter', 'latex')
 
 % Equations
@@ -245,15 +245,14 @@ Height = (Vmax - Vmin)/ax3.Position(4);
 VerticalOffset = Height/30;
 Width = (Xmax - Xmin)/ax3.Position(3);
 HorizontalOffset = Width/60;
-if SFfactor > 1
-    ylabeltext = ['$V(',num2str(SFfactor) * 100,'KN)$'];
-else
-    ylabeltext = '$V(N)$';
-end
+
+ylabeltext = '$V(N)$';
+
 for i = 1:length(Xtick)
 %Create text box and set appropriate properties
-     text(Xtick(i), Vmin - VerticalOffset, ['$' XTICK{i} '$'],...
-         'HorizontalAlignment','Center','Rotation',90, 'FontSize',8, 'interpreter', 'latex');   
+% PUTS ACTUAL X MARKS DOWN
+%     text(Xtick(i), Vmin - VerticalOffset, ['$' XTICK{i} '$'],...
+%         'HorizontalAlignment','Center','Rotation',90, 'FontSize',8, 'interpreter', 'latex');   
 end
 
 for i = 1:length(YtickSF)
@@ -262,13 +261,13 @@ for i = 1:length(YtickSF)
          'HorizontalAlignment','Right', 'FontSize',8, 'interpreter', 'latex');   
 end
 VerticalOffset = Height/15;
-text(0.5*(Xmin + Xmax), Vmin - VerticalOffset, xlabeltext,...
-         'HorizontalAlignment','Center','FontSize',12, 'FontWeight','bold','interpreter', 'latex');
+% text(0.5*(Xmin + Xmax), Vmin - VerticalOffset, xlabeltext,...
+%         'HorizontalAlignment','Center','FontSize',12, 'FontWeight','bold','interpreter', 'latex');
 HorizontalOffset = Width/9;     
 text(Xmin - HorizontalOffset, 0.5*(Vmin + Vmax), ylabeltext,...
          'HorizontalAlignment','Center','VerticalAlignment','cap','Rotation',90, 'FontSize',12, 'interpreter', 'latex');
      
-title('$Shear~Force~Diagram$','FontSize',12, 'interpreter','latex')
+title('$Shear~Force~Diagram$','FontSize',16, 'interpreter','latex')
 
 
 %%
@@ -288,11 +287,9 @@ Height = (Mmax - Mmin)/ax4.Position(4);
 VerticalOffset = Height/30;
 Width = (Xmax - Xmin)/ax4.Position(3);
 HorizontalOffset = Width/60;
-if BMfactor > 1
-    ylabeltext = ['$M(',num2str(BMfactor) * 100,'N-m)$'];
-else
-    ylabeltext = '$M(KN-m)$';
-end
+
+ylabeltext = '$M(N-m)$';
+
 for i = 1:length(Xtick)
 %Create text box and set appropriate properties
      text(Xtick(i), Mmin - VerticalOffset, ['$' XTICK{i} '$'],...
@@ -310,7 +307,7 @@ text(0.5*(Xmin + Xmax), Mmin - VerticalOffset, xlabeltext,...
 HorizontalOffset = Width/9;     
 text(Xmin - HorizontalOffset, 0.5*(Mmin + Mmax), ylabeltext,...
          'HorizontalAlignment','Center','VerticalAlignment','cap','Rotation',90, 'FontSize',12, 'interpreter', 'latex');
-title('$Bending~Monent~Diagram$','FontSize',12, 'interpreter','latex')
+title('$Bending~Moment~Diagram$','FontSize',16, 'interpreter','latex')
 
 %% annotation
 [xa1, ya1] = ConvertCoordinates(ax3, Xtick,repmat(Vmax,size(Xtick)));
@@ -323,18 +320,18 @@ title('$Bending~Monent~Diagram$','FontSize',12, 'interpreter','latex')
 
 for n = 1:numel(Xtick)
     h4 = annotation('line',[xa1(n) xa2(n)],[ya1(n) ya2(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color','b'); 
+    set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]); set(h4, 'LineWidth', 0.1);
 end
-
-for n = 1:numel(YtickSF)
-    h4 = annotation('line',[xb1(n) xc1(n)],[yb1(n) yc1(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color','b'); 
-end
-
-for n = 1:numel(YtickBM)
-    h4 = annotation('line',[xb2(n) xc2(n)],[yb2(n) yc2(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color','b'); 
-end
+% 
+% for n = 1:numel(YtickSF)
+%     h4 = annotation('line',[xb1(n) xc1(n)],[yb1(n) yc1(n)],'Tag' , 'connect1');
+%     set(h4,'LineStyle','--'); set(h4,'Color','b'); 
+% end
+% 
+% for n = 1:numel(YtickBM)
+%     h4 = annotation('line',[xb2(n) xc2(n)],[yb2(n) yc2(n)],'Tag' , 'connect1');
+%     set(h4,'LineStyle','--'); set(h4,'Color','b'); 
+% end
 
 f2 = getframe(gcf);
 F = [f1.cdata,f2.cdata];
@@ -389,9 +386,3 @@ function equation = makeequation(p)
     if(isempty(equation))
         equation = '0';
     end
-
-
-
-
-
-
