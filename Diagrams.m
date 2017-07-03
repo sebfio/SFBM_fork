@@ -76,7 +76,7 @@ for n   = 1:nc
     yl2 = sign(-Cload{n})*t/2;
     yl1 = -Cload{n}*lenperforce + yl2;
     ymin = min([ymin,yl1]); ymax = max([ymax,yl1]);
-    text(xl,yl1+0.2*sign(yl1),[num2str(abs(Cload{n}),'%.2f'),'N'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(xl,yl1+0.2*sign(yl1),[num2str(abs(Cload{n}),'%.2f'),'lbf'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
     if yl1 ~= yl2
         if TypeF(n) == 'a';
             if (nca == 0)
@@ -116,8 +116,8 @@ for n  = 1:nd
     ydist1 = ydist1 + ydist2;
     ymin   = min([ymin,min(ydist1)]); ymax = max([ymax,max(ydist1)]);
     
-    text(xdist(1),ydist1(1) + 0.2*sign(ydist1(1)),[num2str(abs(Dload{n}(1)),'%.2f'),'N/m'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
-    text(xdist(end),ydist1(end) + 0.2*sign(ydist1(end)),[num2str(abs(Dload{n}(end)),'%.2f'),'N/m'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(xdist(1),ydist1(1) + 0.2*sign(ydist1(1)),[num2str(abs(Dload{n}(1)),'%.2f'),'lbf/in'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(xdist(end),ydist1(end) + 0.2*sign(ydist1(end)),[num2str(abs(Dload{n}(end)),'%.2f'),'lbf/in'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
         
     for nn = 1:num
         if ydist2(nn) ~= ydist1(nn)
@@ -170,7 +170,7 @@ for n = 1:nm
         end
         plot(Mloc{n},0,'ok','markersize',5,'markerfacecolor','r')
     end
-    text(Mloc{n},0.3*sign(Mload{n}),[num2str(abs(Mload{n}),'%.2f'),'N-m'], 'FontSize',12, 'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
+    text(Mloc{n},0.3*sign(Mload{n}),[num2str(abs(Mload{n}),'%.2f'),'lbf-in'], 'FontSize',12, 'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
 end
 
 Ymin = ymin - 0.5;
@@ -189,9 +189,9 @@ for i = 1:length(Xload)
          'HorizontalAlignment','Center','Rotation',90, 'FontSize',12, 'interpreter', 'latex');   
 end
 if Xfactor > 1
-    xlabeltext = ['$x(',num2str(Xfactor),'m)$'];
+    xlabeltext = ['$x(',num2str(Xfactor),'in)$'];
 else
-    xlabeltext = '$x(m)$';
+    xlabeltext = '$x(in)$';
 end
 VerticalOffset = Height/15;
 text(0.5*(Xmin + Xmax), Ymin - VerticalOffset, xlabeltext,...
@@ -246,7 +246,7 @@ VerticalOffset = Height/30;
 Width = (Xmax - Xmin)/ax3.Position(3);
 HorizontalOffset = Width/60;
 
-ylabeltext = '$V(N)$';
+ylabeltext = '$V(lbf)$';
 
 for i = 1:length(Xtick)
 %Create text box and set appropriate properties
@@ -288,7 +288,7 @@ VerticalOffset = Height/30;
 Width = (Xmax - Xmin)/ax4.Position(3);
 HorizontalOffset = Width/60;
 
-ylabeltext = '$M(N-m)$';
+ylabeltext = '$M(lbf-in)$';
 
 for i = 1:length(Xtick)
 %Create text box and set appropriate properties
