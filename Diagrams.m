@@ -58,7 +58,7 @@ set(h1,'units','normalized','outerposition',[0 0.05 0.6 0.95],'Color', [1.00 1.0
 ax1 = axes('Position',[0 0 1 1],'Visible','off');
 ax2 = axes('Position',[0.05,0.50,0.90,0.45],'Visible','off');
 axes(ax2)
-t = 0.2; 
+t = 0.2;
 fill([0,0,x(end),x(end),0],[-t/2,t/2,t/2,-t/2,-t/2],'b','linewidth',1.5)
 minx = min(x); maxx = max(x);
 Xmin = minx - 0.05*maxx;
@@ -106,19 +106,19 @@ for n  = 1:nd
     xdist  = linspace(xl(1),xl(end),num);
     ps     = polyfit(xl,-Dload{n}*lenperforce,numel(xl)-1);
     ydist1 = polyval(ps,xdist);
-    IDzero = find(ydist1==0);    
+    IDzero = find(ydist1==0);
     ydist2 = sign(ydist1)*t/2;
     if IDzero == 1
-        ydist2(IDzero) = sign(ydist1(end))*t/2; 
+        ydist2(IDzero) = sign(ydist1(end))*t/2;
     elseif IDzero == numel(ydist1)
         ydist2(IDzero) = sign(ydist1(1))*t/2;
     end
     ydist1 = ydist1 + ydist2;
     ymin   = min([ymin,min(ydist1)]); ymax = max([ymax,max(ydist1)]);
-    
+
     text(xdist(1),ydist1(1) + 0.2*sign(ydist1(1)),[num2str(abs(Dload{n}(1)),'%.2f'),'lbf/in'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
     text(xdist(end),ydist1(end) + 0.2*sign(ydist1(end)),[num2str(abs(Dload{n}(end)),'%.2f'),'lbf/in'], 'FontSize',12 ,'FontWeight','bold', 'HorizontalAlignment','center', 'interpreter','latex')
-        
+
     for nn = 1:num
         if ydist2(nn) ~= ydist1(nn)
             if TypeD(n) == 'a';
@@ -157,7 +157,7 @@ for n = 1:nm
             PlotHandles = [PlotHandles; hma];  PlotNames = [PlotNames;{'Applied Torque'}];
         else
             MomentArrow(radius,t1,t2,[Mloc{n},0],'r', 1.5);
-            
+
         end
         plot(Mloc{n},0,'or','markersize',5,'markerfacecolor','r')
     else
@@ -186,7 +186,7 @@ set(ax2,'XTickLabel',[]);
 for i = 1:length(Xload)
 %Create text box and set appropriate properties
      text(Xload(i), Ymin - VerticalOffset, ['$' XLOAD{i} '$'],...
-         'HorizontalAlignment','Center','Rotation',90, 'FontSize',12, 'interpreter', 'latex');   
+         'HorizontalAlignment','Center','Rotation',90, 'FontSize',14, 'interpreter', 'latex');
 end
 if Xfactor > 1
     xlabeltext = ['$x(',num2str(Xfactor),'in)$'];
@@ -195,16 +195,16 @@ else
 end
 VerticalOffset = Height/15;
 text(0.5*(Xmin + Xmax), Ymin - VerticalOffset, xlabeltext,...
-         'HorizontalAlignment','Center','FontSize',12, 'FontWeight','bold','interpreter', 'latex');
+         'HorizontalAlignment','Center','FontSize',14, 'FontWeight','bold','interpreter', 'latex');
 
 [xa0, ya0] = ConvertCoordinates(ax2, Xload,zeros(size(Xload)));
 [xb0, yb0] = ConvertCoordinates(ax2, Xload,repmat(Ymin,size(Xload)));
 
 % for n = 1:numel(Xload)
 %     h4 = annotation('line',[xa0(n) xb0(n)],[ya0(n) yb0(n)],'Tag' , 'connect1');
-%     set(h4,'LineStyle','--'); set(h4,'Color','b'); 
-% end 
-legend(PlotHandles,PlotNames, 'FontSize',10,'interpreter', 'latex')
+%     set(h4,'LineStyle','--'); set(h4,'Color','b');
+% end
+legend(PlotHandles,PlotNames, 'FontSize',14,'interpreter', 'latex')
 
 % Equations
 Range = {'$Range$'};
@@ -215,12 +215,12 @@ for n = 2:numel(Xtick)
     range = ['$',num2str(Xtick(n - 1)), '~to~',num2str(Xtick(n)),'$'];
     equa1 = ['$',makeequation(PSF{n - 1}),'$'];
     equa2 = ['$',makeequation(PBM{n - 1}),'$'];
-    Range = [Range;{range}]; Equa1 = [Equa1;{equa1}]; Equa2 = [Equa2;{equa2}]; 
+    Range = [Range;{range}]; Equa1 = [Equa1;{equa1}]; Equa2 = [Equa2;{equa2}];
 end
 axes(ax1)
-text(0.05, 0.40, Range, 'VerticalAlignment', 'cap', 'FontSize', 12, 'interpreter', 'latex')
-text(0.20, 0.40, Equa1, 'VerticalAlignment', 'cap', 'FontSize', 12, 'interpreter', 'latex')
-text(0.50, 0.40, Equa2, 'VerticalAlignment', 'cap', 'FontSize', 12, 'interpreter', 'latex')
+text(0.05, 0.40, Range, 'VerticalAlignment', 'cap', 'FontSize', 14, 'interpreter', 'latex')
+text(0.20, 0.40, Equa1, 'VerticalAlignment', 'cap', 'FontSize', 14, 'interpreter', 'latex')
+text(0.50, 0.40, Equa2, 'VerticalAlignment', 'cap', 'FontSize', 14, 'interpreter', 'latex')
 
 f1 = getframe(gcf);
 
@@ -247,26 +247,29 @@ Width = (Xmax - Xmin)/ax3.Position(3);
 HorizontalOffset = Width/60;
 
 ylabeltext = '$V(lbf)$';
+xlabeltext = '$x(in)$';
+text(0.5*(Xmin + Xmax), Vmin - 2 * VerticalOffset, xlabeltext,...
+         'HorizontalAlignment','Center','FontSize',14, 'FontWeight','bold','interpreter', 'latex');
 
 for i = 1:length(Xtick)
 %Create text box and set appropriate properties
 % PUTS ACTUAL X MARKS DOWN
-%     text(Xtick(i), Vmin - VerticalOffset, ['$' XTICK{i} '$'],...
-%         'HorizontalAlignment','Center','Rotation',90, 'FontSize',8, 'interpreter', 'latex');   
+    text(Xtick(i), Vmin - VerticalOffset, ['$' XTICK{i} '$'],...
+        'HorizontalAlignment','Center','Rotation',90, 'FontSize',12, 'interpreter', 'latex');
 end
 
 for i = 1:length(YtickSF)
 %Create text box and set appropriate properties
      text(Xmin - HorizontalOffset, YtickSF(i), ['$' YTICKSF{i} '$'],...
-         'HorizontalAlignment','Right', 'FontSize',8, 'interpreter', 'latex');   
+         'HorizontalAlignment','Right', 'FontSize',12, 'interpreter', 'latex');
 end
 VerticalOffset = Height/15;
 % text(0.5*(Xmin + Xmax), Vmin - VerticalOffset, xlabeltext,...
 %         'HorizontalAlignment','Center','FontSize',12, 'FontWeight','bold','interpreter', 'latex');
-HorizontalOffset = Width/9;     
+HorizontalOffset = Width/9;
 text(Xmin - HorizontalOffset, 0.5*(Vmin + Vmax), ylabeltext,...
          'HorizontalAlignment','Center','VerticalAlignment','cap','Rotation',90, 'FontSize',12, 'interpreter', 'latex');
-     
+
 title('$Shear~Force~Diagram$','FontSize',16, 'interpreter','latex')
 
 
@@ -293,18 +296,18 @@ ylabeltext = '$M(lbf-in)$';
 for i = 1:length(Xtick)
 %Create text box and set appropriate properties
      text(Xtick(i), Mmin - VerticalOffset, ['$' XTICK{i} '$'],...
-         'HorizontalAlignment','Center','Rotation',90, 'FontSize',8, 'interpreter', 'latex');   
+         'HorizontalAlignment','Center','Rotation',90, 'FontSize',12, 'interpreter', 'latex');
 end
 
 for i = 1:length(YtickBM)
 %Create text box and set appropriate properties
      text(Xmin - HorizontalOffset, YtickBM(i), ['$' YTICKBM{i} '$'],...
-         'HorizontalAlignment','Right', 'FontSize',8, 'interpreter', 'latex');   
+         'HorizontalAlignment','Right', 'FontSize',12, 'interpreter', 'latex');
 end
 VerticalOffset = Height/15;
 text(0.5*(Xmin + Xmax), Mmin - VerticalOffset, xlabeltext,...
          'HorizontalAlignment','Center','FontSize',12, 'FontWeight','bold','interpreter', 'latex');
-HorizontalOffset = Width/9;     
+HorizontalOffset = Width/9;
 text(Xmin - HorizontalOffset, 0.5*(Mmin + Mmax), ylabeltext,...
          'HorizontalAlignment','Center','VerticalAlignment','cap','Rotation',90, 'FontSize',12, 'interpreter', 'latex');
 title('$Bending~Moment~Diagram$','FontSize',16, 'interpreter','latex')
@@ -318,19 +321,19 @@ title('$Bending~Moment~Diagram$','FontSize',16, 'interpreter','latex')
 [xb2, yb2] = ConvertCoordinates(ax4, repmat(Xmin,size(YtickBM)),YtickBM);
 [xc2, yc2] = ConvertCoordinates(ax4, repmat(Xmax,size(YtickBM)),YtickBM);
 
-for n = 1:numel(Xtick)
-    h4 = annotation('line',[xa1(n) xa2(n)],[ya1(n) ya2(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]); set(h4, 'LineWidth', 0.1);
-end
+%for n = 1:numel(Xtick)
+%    h4 = annotation('line',[xa1(n) xa2(n)],[ya1(n) ya2(n)],'Tag' , 'connect1');
+%    set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]); set(h4, 'LineWidth', 0.1);
+%end
 
 for n = 1:numel(YtickSF)
     h4 = annotation('line',[xb1(n) xc1(n)],[yb1(n) yc1(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]); 
+    set(h4,'LineStyle','--'); set(h4,'Color', [0,0,0,0.1]);
 end
 
 for n = 1:numel(YtickBM)
     h4 = annotation('line',[xb2(n) xc2(n)],[yb2(n) yc2(n)],'Tag' , 'connect1');
-    set(h4,'LineStyle','--'); set(h4,'Color',[0,0,0,0.1]); 
+    set(h4,'LineStyle','--'); set(h4,'Color',[0,0,0,0.1]);
 end
 
 f2 = getframe(gcf);
@@ -344,7 +347,7 @@ function equation = makeequation(p)
         avv = abs(vv);
         vvstr = [];
         if (avv ~= 0)
-            if (avv == 1) 
+            if (avv == 1)
                 if(isempty(equation))
                     if(vv < 0)
                         if power == 0
